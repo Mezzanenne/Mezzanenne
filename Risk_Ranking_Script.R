@@ -112,10 +112,10 @@ sd(mu_v)
 sd(gd_v)
 
 
-#### CORRELATIONS
-cor(lambda_v, mu_v)
-cor(lambda_v, gd_v)
-cor(mu_v, gd_v)
+#### CORRELATION TEST
+cor.test(lambda_v, mu_v)
+cor.test(lambda_v, gd_v)
+cor.test(mu_v, gd_v)
 
 par <- data.frame(lambda = lambda_v, mu = mu_v, conc_out = gd_v)
 pairs(~lambda+mu+conc_out, data = par)
@@ -124,88 +124,48 @@ pairs(~lambda+mu+conc_out, data = par)
 #### VISUALIZATIONS
 
 ## LAMBDA
-df %>%
-  ggplot(aes(x = lambda_v, fill = lambda_v)) +
-  geom_histogram(alpha = 0.7, position ="identity",
-                 aes(y = ..density..), color="black", fill = "cornflowerblue") +
+df %>% ggplot(aes(x = lambda_v, fill = lambda_v)) +
+  geom_histogram(alpha = 0.7, position ="identity", aes(y = ..density..), color="black", fill = "cornflowerblue") +
   theme_bw() + xlab("lambda samples")
-
-
-
-df %>%
-  ggplot(aes(lambda_v)) + stat_ecdf(col = "cornflowerblue", size = 1) +
-  theme_bw() + xlab("lambda") + ylab("cumulative density")
-
-
-df %>%
-  ggplot(aes(x = lambda_v, y = out)) + geom_point(shape = 1, size = 3) +
-  labs(x = "lambda", 
-       y = "output (p_PL)") +
-  #caption = "Note") +
-  theme(text = element_text(size=10),
-        axis.text.x = element_text(angle=0, hjust=0.5)) + theme_bw()
+df %>% ggplot(aes(lambda_v)) + stat_ecdf(col = "cornflowerblue", size = 1) + theme_bw() + xlab("lambda") + ylab("cumulative density")
+df %>% ggplot(aes(x = lambda_v, y = out)) + geom_point(shape = 1, size = 3) + labs(x = "lambda", y = "output (p_PL)") +
+  theme(text = element_text(size=10), axis.text.x = element_text(angle=0, hjust=0.5)) + theme_bw()
 
 
 ## GD
-df %>%
-  ggplot(aes(x = gd_v, fill = gd_v)) +
-  geom_histogram(alpha = 0.7, position ="identity",
-                 aes(y = ..density..), color="black", fill = "cornflowerblue") +
+df %>% ggplot(aes(x = gd_v, fill = gd_v)) +
+  geom_histogram(alpha = 0.7, position ="identity", aes(y = ..density..), color="black", fill = "cornflowerblue") +
   xlab("conc_out samples") + theme_bw()
-
-df %>%
-  ggplot(aes(gd_v)) + stat_ecdf(col = "cornflowerblue", size = 1) +
-  theme_bw() + xlab("conc_out") + ylab("cumulative density")
-
-
-df %>%
-  ggplot(aes(x = gd_v, y = out)) + geom_point(shape = 1, size = 3)+ #VS OUT
-  labs(x = "conc_out", 
-       y = "output (p_PL)") +
-  theme(text = element_text(size=10),
-        axis.text.x = element_text(angle=0, hjust=0.5)) + theme_bw()
+df %>% ggplot(aes(gd_v)) + stat_ecdf(col = "cornflowerblue", size = 1) + theme_bw() + xlab("conc_out") + ylab("cumulative density")
+df %>% ggplot(aes(x = gd_v, y = out)) + geom_point(shape = 1, size = 3)+ #VS OUT
+  labs(x = "conc_out", y = "output (p_PL)") +
+  theme(text = element_text(size=10), axis.text.x = element_text(angle=0, hjust=0.5)) + theme_bw()
 
 ## MU
-ggplot(df, aes(x = mu_v, fill = mu_v)) +
-  geom_histogram(alpha = 0.7, position ="identity",
-                 aes(y = ..density..), color="black", fill = "cornflowerblue") +
+df %>% ggplot(aes(x = mu_v, fill = mu_v)) +
+  geom_histogram(alpha = 0.7, position ="identity", aes(y = ..density..), color="black", fill = "cornflowerblue") +
   theme_bw() + xlab("mu samples")
-
-df %>%
-  ggplot(aes(mu_v)) + stat_ecdf(col = "cornflowerblue", size = 1) +
-  theme_bw() + xlab("mu") + ylab("cumulative density")
-
-df %>%
-  ggplot(aes(x = mu_v, y = out)) + geom_point(shape = 1, size = 3) +
-  labs(x = "mu", 
-       y = "output (p_PL)") +
-  theme(text = element_text(size=10),
-        axis.text.x = element_text(angle=0, hjust=0.5)) + theme_bw()
+df %>% ggplot(aes(mu_v)) + stat_ecdf(col = "cornflowerblue", size = 1) + theme_bw() + xlab("mu") + ylab("cumulative density")
+df %>% ggplot(aes(x = mu_v, y = out)) + geom_point(shape = 1, size = 3) +
+  labs(x = "mu", y = "output (p_PL)") +
+  theme(text = element_text(size=10), axis.text.x = element_text(angle=0, hjust=0.5)) + theme_bw()
 
 #OUT
 df %>% ggplot(aes(x = out, fill = out)) +
-  geom_histogram(alpha=0.7, position="identity", aes(y = ..density..),
-                 color="black", fill = "cornflowerblue") + theme_bw() + xlab("output samples") +
+  geom_histogram(alpha=0.7, position="identity", aes(y = ..density..), color="black", fill = "cornflowerblue") + theme_bw() + xlab("output samples") +
   geom_density(alpha = 0.4, fill = "magenta")
-
 df %>%
   ggplot(aes(x = out)) + stat_ecdf(col = "cornflowerblue") +
-  xlab("output (probability of successful exposition per year") + ylab("cumulative probability") +
-  theme_bw()
-
+  xlab("output (probability of successful exposition per year") + ylab("cumulative probability") + theme_bw()
 
 
 
 #### REGRESSION ANALYSIS ####
-library(lm.beta)
+library(lm.beta) # package containing the function lm.beta to get standardized coefficients
 mod <- lm(out ~ -1 + lambda_v + mu_v + gft_v)
-summary(mod)
+# summary(mod)
 lm.beta(mod) -> mod.beta
 summary(mod.beta)
-
-sink("regr_liver.csv")
-print(summary(mod.beta))
-sink()
 
 #### PARAMETER IMPACT ####
 mod.beta$standardized.coefficients[1] %>% abs() -> lam
@@ -216,20 +176,6 @@ mod.beta$standardized.coefficients[3] %>% abs() -> gf
 (m - gf)/gf
 (gf - lam)/lam
 (m - lam)/lam
-
-
-
-#### RESIDUALS ANALYSIS ####
-library(TSA)
-library(car)
-library(lmtest)
-
-par(mfrow = c(2, 2))
-plot(mod.beta)
-
-bptest(mod.beta)
-ncvTest(mod.beta)
-
 
 
 ##########################################################################################
