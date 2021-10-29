@@ -1,5 +1,6 @@
 ###########################################################################################
-# Generic script used in ... to decline for each food category
+# Generic script used in "Quantitative methods for the prioritization of foods implicated in the transmission of hepatititis E to humans in Italy"
+# (Moro, Isopi, Suffredini, Schembri, Scavia) to be decline for each food category
 ###########################################################################################
 
 library(readxl)
